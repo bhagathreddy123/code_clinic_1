@@ -106,15 +106,15 @@ end
  
 	 	 	
 def median(array)
-array.sort!
-length = array.length
-if length %2 == 1
-return array[length/2]
-else
-item1 = array[length/2 – 1]
-item2 = array[length/2]
-return mean([item1,item2])
-end
+	array.sort!
+	length = array.length
+	if length %2 == 1
+		return array[length/2]
+	else
+		item1 = array[length/2 – 1]
+		item2 = array[length/2]
+		return mean([item1,item2])
+	end
 end
  
  
@@ -129,4 +129,19 @@ results[label] = {
 }
 end
 return results
+end
+
+
+def output_results_table()
+	puts
+	puts "___________________________"
+	puts "| Type | Mean | Median | "
+	puts "___________________________"
+	results.each do |label,hash|
+		print "| " + label.ljust(10) + " | "
+		print sprintf("%.6f", hash[:mean]).rjust(10) + " | "
+		puts sprintf("%.6f", hash[:median]).rjust(10) + " | "
+	end
+		puts " _______________________"
+		puts
 end
