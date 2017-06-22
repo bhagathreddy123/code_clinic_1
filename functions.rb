@@ -145,3 +145,22 @@ def output_results_table()
 		puts " _______________________"
 		puts
 end
+
+
+## API Methods 
+
+def url_params_for_date_range
+begin
+	start_date = Date.parse(params[:start])
+	end_date = Date.parse(params[:end])
+rescue ArgumentError
+halt "Invalid date format."
+end
+if !date_valid?(start_date)
+halt "start date must be after #{DATA_START_DATE} and before today."
+elsif !date_valid?(end_date)
+halt "end date must be after #{DATA_START_DATE} and before today."
+elsif !date_range_valid?(start_date,end_date)
+halt "Invalid date range."
+end
+end
