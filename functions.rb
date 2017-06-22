@@ -1,9 +1,16 @@
 require 'readline'
 require 'date'
+require 'open-uri'
 
 DATA_START_DATE = '2006-09-20'
 MAX_DAYS = 7
 
+READING_TYPES = {
+ 
+	"Wind_Speed" => "Wind Speed",
+	"Air_Temp" => "Air Temp",
+	"Barometric_Press" => "Pressure"
+}
 
 def query_user_for_date_range
 	start_date = nil
@@ -64,3 +71,27 @@ def date_range_valid?(start_date,end_date)
  
 end
 
+# Retriving Remote Data
+
+def get_reading_from_remote_for_dates(type,start_date,end_date)
+	readings = []
+	start_date.upto(end_date) do |date|
+	readings += get_readings_from_remote(type,date)
+	end
+	return readings
+end
+
+def get_readings_from_remote(type,date)
+	raise "Invalid Reading Type" unless
+			READING_TYPES.keys.include?(type)
+	base_url = "http://lpo.dt.navy.mil/data/DM"
+	url = "{base_url}/#{data.year}/#{date.strftime("%Y_%m_%d")}/#{type}"
+	puts "Retrieving: #{url}"
+	data = open(url).readlines
+	  	
+	readings = data.map do |line|
+		line_items.chomp.split(" ")
+		reading = line_items[2].to_f
+	end
+	return readings
+end
